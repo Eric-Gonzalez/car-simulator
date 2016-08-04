@@ -2,9 +2,8 @@ import array
 
 import matplotlib.pyplot as plt
 from PIL import Image
-
+from api.simulator import Simulator
 import vrep
-
 
 # throttle ( 0 -> 1 )
 # brake (0 -> 1)
@@ -43,8 +42,8 @@ def _simSendCommand(clientID, functionName, inputInts=[], inputFloats=[], inputS
                                        vrep.simx_opmode_oneshot_wait)
 
 
-vrep.simxFinish(-1)  # just in case, close all opened connections
-clientID = vrep.simxStart('127.0.0.1', 19997, True, True, -500000, 5)
+simulator = Simulator()
+clientID = simulator.connect()
 
 emptyBuff = bytearray()
 
@@ -52,7 +51,7 @@ if clientID != -1:
     print 'Connected to remote API server'
 
     # Start Session
-    vrep.simxStartSimulation(clientID, vrep.simx_opmode_oneshot_wait)
+    simulator.start()
 
     figure = plt.figure(1)
 
@@ -80,7 +79,7 @@ if clientID != -1:
     # Set Acceleration Speed
 
     # Session Cleanup
-    vrep.simxStopSimulation(clientID, vrep.simx_opmode_oneshot_wait)
-    vrep.simxFinish(clientID)
+    simulator.stop()
+    simulator.disconnect()
 else:
     print 'Failed to connect to simulation'
