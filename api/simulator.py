@@ -15,7 +15,14 @@ class Simulator:
         vrep.simxStopSimulation(self.clientID, vrep.simx_opmode_oneshot_wait)
 
     def start(self):
-        vrep.simxStartSimulation(self.clientID, vrep.simx_opmode_oneshot_wait)
+        return vrep.simxStartSimulation(self.clientID, vrep.simx_opmode_oneshot_wait)
 
     def stop(self):
         vrep.simxStopSimulation(self.clientID, vrep.simx_opmode_oneshot_wait)
+
+    def exec_script(self, functionName, inputInts=[], inputFloats=[], inputStrings=[],
+                    byteBuffer=bytearray()):
+        return vrep.simxCallScriptFunction(self.clientID, 'car',
+                                           vrep.sim_scripttype_childscript, functionName, inputInts,
+                                           inputFloats, inputStrings, byteBuffer,
+                                           vrep.simx_opmode_oneshot_wait)

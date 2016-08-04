@@ -2,16 +2,11 @@ import array
 
 import matplotlib.pyplot as plt
 from PIL import Image
+
+from api.car import Car
 from api.simulator import Simulator
 import vrep
 
-# throttle ( 0 -> 1 )
-# brake (0 -> 1)
-# steer (-1 to 1)
-# gps (X, Y, Z)
-# front camera image
-# start Simulation
-# stop Simulation
 
 def getRobotSpeed(client):
     return _simSendCommand(client, 'getSpeed')
@@ -42,44 +37,51 @@ def _simSendCommand(clientID, functionName, inputInts=[], inputFloats=[], inputS
                                        vrep.simx_opmode_oneshot_wait)
 
 
-simulator = Simulator()
-clientID = simulator.connect()
-
 emptyBuff = bytearray()
 
-if clientID != -1:
-    print 'Connected to remote API server'
+simulator = Simulator()
+car = Car(simulator)
 
-    # Start Session
-    simulator.start()
+simulator.connect()
 
-    figure = plt.figure(1)
+print simulator.start()
 
-    setRobotSpeed(clientID, 8)
+print car.set_throttle(3)
+print 'Throttle Position: ' + car.get_throttle().__str__()
 
-    first = True
-    while True:
-        # Fetch Model References
-        image = getVisionSensorImage(clientID)
-        if first:
-            plotimg = plt.imshow(image, origin='lower')
-            first = False
+# simulator.disconnect()
 
-        plotimg.set_data(image)
+# if clientID != -1:
+#     print 'Connected to remote API server'
+#
+#     # Start Session
+#     simulator.start()
 
-        plt.draw()
-        plt.pause(0.00000001)
+# figure = plt.figure(1)
+# setRobotSpeed(clientID, 8)
+# first = True
+# while True:
+#     # Fetch Model References
+#     image = getVisionSensorImage(clientID)
+#     if first:
+#         plotimg = plt.imshow(image, origin='lower')
+#         first = False
+#
+#     plotimg.set_data(image)
+#
+#     plt.draw()
+#     plt.pause(0.00000001)
+#
+#     getRobotSpeed(clientID)
 
-        getRobotSpeed(clientID)
+# Display Dialog
 
-    # Display Dialog
+# Fetch Sensor Data
 
-    # Fetch Sensor Data
+# Set Acceleration Speed
 
-    # Set Acceleration Speed
-
-    # Session Cleanup
-    simulator.stop()
-    simulator.disconnect()
-else:
-    print 'Failed to connect to simulation'
+# Session Cleanup
+#     simulator.stop()
+#     simulator.disconnect()
+# else:
+#     print 'Failed to connect to simulation'
