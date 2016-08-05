@@ -46,8 +46,12 @@ simulator.connect()
 
 print simulator.start()
 
-print car.set_throttle(3)
-print 'Throttle Position: ' + car.get_throttle().__str__()
+print car.set_throttle(0)
+print car.set_steering_angle(0)
+
+# while True:
+#     print 'Throttle Position: ' + car.get_throttle().__str__()
+#     print 'Steering Angle: ' + car.get_steering_angle().__str__()
 
 # simulator.disconnect()
 
