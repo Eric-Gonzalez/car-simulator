@@ -7,9 +7,10 @@ car = Car(simulator)
 
 simulator.connect()
 
-print simulator.start()
+simulator.start()
 
-print car.set_throttle(0)
+print car.set_throttle(.1)
+print car.get_throttle()
 print car.set_steering_angle(0)
 
 # Display Fetched Image
