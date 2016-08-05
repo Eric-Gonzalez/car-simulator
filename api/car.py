@@ -30,10 +30,14 @@ class Car:
         """
         :param value: Between -1 and 1
         """
-        return self.simulator.exec_script('setSteeringAngleRemote', input_floats=[value])
+        return_code, ints, floats, strings, string = self.simulator.exec_script(
+            'setSteeringAngleRemote', input_floats=[value])
+        return floats[0]
 
     def get_steering_angle(self):
-        return self.simulator.exec_script('getSteeringAngleRemote')
+        return_code, ints, floats, strings, string = self.simulator.exec_script(
+            'getSteeringAngleRemote')
+        return floats[0]
 
     def get_front_camera_image(self):
         return self.simulator.get_sensor_image('front_camera')

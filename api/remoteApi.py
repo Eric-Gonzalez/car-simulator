@@ -13,6 +13,7 @@ simulator.start()
 print car.set_throttle(.1)
 print car.get_throttle()
 print car.set_steering_angle(.66)
+print car.get_steering_angle()
 
 duration = time.time() + 10
 plot_image = plt.imshow(car.get_front_camera_image(), origin='lower')
