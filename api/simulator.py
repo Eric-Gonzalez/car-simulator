@@ -1,7 +1,13 @@
+from PIL import Image
+import array
+
 import vrep
 
 
 class Simulator:
+    SCRIPT_NAME = 'car'
+    OP_WAIT = vrep.simx_opmode_oneshot_wait
+
     def __init__(self):
         self.clientID = -1
 
@@ -12,17 +18,35 @@ class Simulator:
 
     def disconnect(self):
         vrep.simxFinish(-1)
-        vrep.simxStopSimulation(self.clientID, vrep.simx_opmode_oneshot_wait)
+        vrep.simxStopSimulation(self.clientID, self.OP_WAIT)
 
     def start(self):
-        return vrep.simxStartSimulation(self.clientID, vrep.simx_opmode_oneshot_wait)
+        return vrep.simxStartSimulation(self.clientID, self.OP_WAIT)
 
     def stop(self):
-        vrep.simxStopSimulation(self.clientID, vrep.simx_opmode_oneshot_wait)
+        vrep.simxStopSimulation(self.clientID, self.OP_WAIT)
 
-    def exec_script(self, functionName, inputInts=[], inputFloats=[], inputStrings=[],
-                    byteBuffer=bytearray()):
-        return vrep.simxCallScriptFunction(self.clientID, 'car',
-                                           vrep.sim_scripttype_childscript, functionName, inputInts,
-                                           inputFloats, inputStrings, byteBuffer,
-                                           vrep.simx_opmode_oneshot_wait)
+    def exec_script(self, function_name, input_ints=None, input_floats=None, input_strings=None,
+                    byte_buffer=bytearray()):
+        if input_strings is None:
+            input_strings = []
+        if input_floats is None:
+            input_floats = []
+        if input_ints is None:
+            input_ints = []
+
+        return vrep.simxCallScriptFunction(self.clientID, self.SCRIPT_NAME,
+                                           vrep.sim_scripttype_childscript, function_name,
+                                           input_ints,
+                                           input_floats, input_strings, byte_buffer,
+                                           self.OP_WAIT)
+
+    def get_object_handle(self, object_name):
+        return vrep.simxGetObjectHandle(self.clientID, object_name, self.OP_WAIT)
+
+    def get_sensor_image(self, sensor_name):
+        return_code, sensor = self.get_object_handle(sensor_name)
+        return_code, resolution, data = vrep.simxGetVisionSensorImage(self.clientID, sensor, 0,
+                                                                      self.OP_WAIT)
+        image_byte_array = array.array('b', data)
+        return Image.frombuffer("RGB", resolution, image_byte_array, "raw", "RGB", 0, 1)

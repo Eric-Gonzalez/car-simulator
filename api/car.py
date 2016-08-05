@@ -7,7 +7,7 @@ class Car:
         """
         :param value: Between -1 and 1
         """
-        return self.simulator.exec_script('setThrottleRemote', inputFloats=[value])
+        return self.simulator.exec_script('setThrottleRemote', input_floats=[value])
 
     def get_throttle(self):
         """
@@ -25,13 +25,13 @@ class Car:
         """
         :param value: Between -1 and 1
         """
-        return self.simulator.exec_script('setSteeringAngleRemote', inputFloats=[value])
+        return self.simulator.exec_script('setSteeringAngleRemote', input_floats=[value])
 
     def get_steering_angle(self):
         return self.simulator.exec_script('getSteeringAngleRemote')
 
     def get_front_camera_image(self):
-        pass
+        return self.simulator.get_sensor_image('front_camera')
 
     def get_gps_position(self):
         pass
