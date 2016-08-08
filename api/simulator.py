@@ -1,7 +1,8 @@
-from PIL import Image
 import array
 
-import vrep
+from PIL import Image
+
+from api import vrep
 
 
 class Simulator:
