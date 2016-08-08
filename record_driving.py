@@ -1,9 +1,9 @@
 import signal
 import sys
 
-from api.car import Car
-from api.recorder import Recorder
-from api.simulator import Simulator
+from simulator.car import Car
+from simulator.recorder import Recorder
+from simulator.simulator import Simulator
 
 
 def signal_handler(signal, frame):

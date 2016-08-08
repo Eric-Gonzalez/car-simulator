@@ -2,12 +2,13 @@ import array
 
 from PIL import Image
 
-from api import vrep
+from vrep import vrep
+from vrep import vrepConst
 
 
 class Simulator:
     SCRIPT_NAME = 'car'
-    OP_WAIT = vrep.simx_opmode_oneshot_wait
+    OP_WAIT = vrepConst.simx_opmode_oneshot_wait
 
     def __init__(self):
         self.clientID = -1
@@ -37,7 +38,7 @@ class Simulator:
             input_ints = []
 
         return vrep.simxCallScriptFunction(self.clientID, self.SCRIPT_NAME,
-                                           vrep.sim_scripttype_childscript, function_name,
+                                           vrepConst.sim_scripttype_childscript, function_name,
                                            input_ints,
                                            input_floats, input_strings, byte_buffer,
                                            self.OP_WAIT)

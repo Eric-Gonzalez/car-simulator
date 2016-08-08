@@ -1,8 +1,8 @@
 import time
 
-from api.car import Car
-from api.recorder import Recorder
-from api.simulator import Simulator
+from simulator.car import Car
+from simulator.recorder import Recorder
+from simulator.simulator import Simulator
 
 simulator = Simulator()
 car = Car(simulator)

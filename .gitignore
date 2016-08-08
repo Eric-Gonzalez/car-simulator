@@ -2,5 +2,5 @@
 *.pyc
 
 # Ignore Recorder Data
-api/frames/
-api/driving.csv
+frames/
+driving.csv
