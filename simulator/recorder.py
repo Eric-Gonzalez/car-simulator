@@ -18,7 +18,7 @@ def _create_directory(directory_name):
 
 
 class Recorder:
-    def __init__(self, car, interval_in_seconds=.25, file_name="driving.csv",
+    def __init__(self, car, interval_in_seconds=.5, file_name="driving.csv",
                  directory_name="frames"):
         self._timer = None
         self.is_running = False
